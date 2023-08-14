@@ -162,16 +162,16 @@ function setViewState(state) {
     
     switch(viewstate) {
         case 0:
-            document.getElementById("textInput").placeholder = "(r, g, b)";
+            document.getElementById("textInput").placeholder = "r, g, b";
             break;
         case 1:
             document.getElementById("textInput").placeholder = "#rrggbb";
             break;
         case 2:
-            document.getElementById("textInput").placeholder = "(h, s, l)";
+            document.getElementById("textInput").placeholder = "h, s, l";
             break;
         case 3:
-            document.getElementById("textInput").placeholder = "(h, s, v)";
+            document.getElementById("textInput").placeholder = "h, s, v";
             break;
     }
 
@@ -188,7 +188,7 @@ function createRandomColor() {
 }
 
 function setupColors() {
-    for (let i = 0; i < 10; i++)
+    for (let i = 0; i < 6; i++)
         createRandomColor();
 }
 
@@ -266,7 +266,7 @@ function setSliders() {
     valid = true;
     switch(viewstate) {
         case 0:
-            let rgb = text.slice(1, length - 1).split(","); // cut the parenthesis off
+            let rgb = text.split(","); // cut the parenthesis off
 
             for (let i = 0; i < rgb.length; i++)
                 sliders[i].value = parseInt(rgb[i]);
@@ -313,11 +313,58 @@ function copyColor(paletteIndex) {
     }
 }
 
+function exportPalette() {
+    const canvas = document.createElement("canvas");
+    const ctxt = canvas.getContext("2d");
+    // approximate for a square png given num of squares inside the square
+    let rows = Math.sqrt(colorPalette.length);
+    let columns = 0;
+    if (rows % 1 != 0) {
+        columns = Math.round(rows);
+        if (columns < rows)
+            rows = columns + 1;
+        else
+            rows = columns;
+    }
+    else {
+        columns = rows;
+    }
+
+    let currentColor = 0;
+    const colorSize = 100;
+    canvas.width = colorSize * columns;
+    canvas.height = colorSize * rows;
+    ctxt.fillRect(0, 0, canvas.width, canvas.height);
+    let x = 0;
+    let y = 0;
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < columns; j++) {
+            if (currentColor < colorPalette.length)
+                ctxt.fillStyle = colorPalette[currentColor].getColorValue().getHexStr();
+            ctxt.fillRect(x, y, x + colorSize, y + colorSize);
+            x += colorSize;
+            currentColor++;
+            if (currentColor == colorPalette.length)
+                ctxt.fillStyle = "#000000";
+        }
+        y += colorSize;
+        x = 0;
+        if (currentColor == colorPalette.length)
+            ctxt.fillStyle = "#000000";
+    }
+    document.getElementsByTagName("footer")[0].appendChild(canvas);
+    let anchor = document.createElement("a");
+    const URL = canvas.toDataURL("image/png");
+    anchor.setAttribute("download", "yourPalette");
+    anchor.setAttribute("href", URL);
+    anchor.click();
+}
 // globals
 let DOM_palette = document.getElementById("palette");
 let viewstate = 0; // contextual viewing state to adjust what is displayed for each color
 let colorPalette = []; // to allowing editing of each color
 let sliders = [document.getElementById("slider1"), document.getElementById("slider2"), document.getElementById("slider3")];
 let inputs = [document.getElementById("input1"), document.getElementById("input2"), document.getElementById("input3")];
+let expandMenuToggle = 0; // controls whether the export field is being displayed
 
 window.onload = setupColors();

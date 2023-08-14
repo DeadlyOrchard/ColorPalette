@@ -10,7 +10,6 @@ header {
     top: 0;
     margin: 0;
     padding: 0;
-    border-bottom: 4px solid #111;
     z-index: 2;
     box-shadow: 8px 8px 8px #111;
 }
@@ -108,7 +107,7 @@ aside form {
 aside input[type="text"] {
     width: 90%;
     margin: 16px 5%;
-    background-color: #656;
+    background-color: var(--foreground1);
     text-align: center;
     color: var(--text);
     border: 1px solid #222;
@@ -121,7 +120,7 @@ aside input[type="text"]::placeholder {
     color: #998899;
 }
 
-aside form input[type="submit"] {
+aside form input[type="submit"], aside button {
     width: 80%;
     margin: 0 0 16px 10%;
     padding: 0;
@@ -144,9 +143,20 @@ aside p {
     color: var(--text);
 }
 
+aside button {
+    margin-top: 24px;
+    background-color: #434;
+    box-shadow: 0 0 16px #656;
+}
+
+aside button:hover {
+    background-color: var(--foreground1);
+    cursor: pointer;
+    transition-duration: .2s;
+}
+
 #palette {
     width: 60vw;
-    height: 90vh;
     display: grid;
     margin: 52px 0 0 25vw;
     padding: 16px 0;
@@ -205,7 +215,7 @@ aside p {
     border: none;
     grid-row: -1;
 
-    background-color: rgba(110, 110, 110, 0.5);
+    background-color: rgba(33, 33, 33, 0.33);
     font-size: 14pt;
     color: var(--text);
     cursor: pointer;
@@ -215,9 +225,22 @@ aside p {
     background-color: #222;
 }
 
+footer {
+    width: 75%;
+    float: right;
+    margin-bottom: 500px;
+}
+
+footer canvas {
+    margin: 20px;
+    box-shadow: 0 0 16px #656;
+}
+
 
 :root {
     --background0: #323;
     --background1: #333;
+    --foreground0: #434;
+    --foreground1: #656;
     --text: #eee;
 }

@@ -19,12 +19,14 @@
         <input id="slider3" type="range" min="0" max="255" value="0" oninput="editColor()">
         <p>( <span id="input1"></span>, <span id="input2"></span>, <span id="input3"></span> )</p>
         <form name="textForm" onsubmit="setSliders(); return false">
-            <input type="text" name="textInput" autocomplete="off" id="textInput" placeholder="(r, g, b)">
+            <input type="text" name="textInput" autocomplete="off" id="textInput" placeholder="r, g, b">
             <input type="submit" value="Set Color">
         </form>
+        <button onclick="exportPalette()">Quick Export</button>
     </aside>
     <main id="palette">
     </main>
+    <footer></footer>
     <script src="script.js"></script>
 </body>
 </html>
