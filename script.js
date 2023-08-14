@@ -159,6 +159,21 @@ function setViewState(state) {
     DOM_palette.innerHTML = "";
     for (let i = 0; i < colorPalette.length; i++)
         DOM_palette.innerHTML += colorPalette[i].getFullHTML(viewstate);
+    
+    switch(viewstate) {
+        case 0:
+            document.getElementById("textInput").placeholder = "(r, g, b)";
+            break;
+        case 1:
+            document.getElementById("textInput").placeholder = "#rrggbb";
+            break;
+        case 2:
+            document.getElementById("textInput").placeholder = "(h, s, l)";
+            break;
+        case 3:
+            document.getElementById("textInput").placeholder = "(h, s, v)";
+            break;
+    }
 
 }
 
@@ -209,6 +224,7 @@ function selectColor(paletteIndex) {
             }
             break;
     }
+    document.getElementById("textInput").focus(); // autofocus on editing by manual text input
 }
 
 function editColor() {
@@ -275,6 +291,7 @@ function setSliders() {
             editColor();
             break;
     }
+    document.getElementById("textInput").value = "";
 }
 
 function copyColor(paletteIndex) {
