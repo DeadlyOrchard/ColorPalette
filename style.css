@@ -1,7 +1,7 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: var(--background);
+    background-color: var(--background0);
 }
 
 header {
@@ -11,6 +11,8 @@ header {
     margin: 0;
     padding: 0;
     border-bottom: 4px solid #111;
+    z-index: 2;
+    box-shadow: 8px 8px 8px #111;
 }
 
 header button {
@@ -21,7 +23,7 @@ header button {
     float: left;
 
     font-size: 18pt;
-    background-color: var(--background);
+    background-color: var(--background1);
     color: var(--text);
 }
 
@@ -32,9 +34,10 @@ header button:hover {
 
 aside {
     width: 20vw;
-    background-color: #fff;
+    margin: 100px 0 0 2vw;
+    position: fixed;
     float: left;
-    background-color: #333;
+    background-color: #323;
 }
 
 aside input[type="range"] {
@@ -46,19 +49,21 @@ aside input[type="range"] {
     border-radius: 8px;
 }
 
+/* gradient for each slider depends on viewstate */
+
 aside #slider1 {
-    background: rgb(2,0,36);
-    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(255,0,0,1) 100%);
+    background: rgb(0,0,0);
+    background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(255,0,0,1) 100%);
 }
 
 aside #slider2 {
-    background: rgb(2,0,36);
-    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(0,255,0,1) 100%);
+    background: rgb(0,0,0);
+    background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,255,0,1) 100%);
 }
 
 aside #slider3 {
-    background: rgb(2,0,36);
-    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(0,0,255,1) 100%);
+    background: rgb(0,0,0);
+    background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,255,1) 100%);
 }
 
 /* Thumb Styles */
@@ -85,12 +90,48 @@ aside input[type="range"]::-webkit-slider-thumb {
 }
 
 aside input[type="range"]:focus::-webkit-slider-thumb {
-    background-color: #FFFFFF;
+    background-color: #eeeeee;
+    outline: 3px solid #aaa;
 }
 
 /* Firefox thumb */
 aside input[type="range"]:focus::-moz-range-thumb {
     background-color: #FFFFFF;
+}
+
+aside form {
+    background-color: #434;
+    box-shadow: 0 0 16px #656;
+    width: 100%;
+}
+
+aside input[type="text"] {
+    width: 90%;
+    margin: 16px 5%;
+    background-color: #656;
+    text-align: center;
+    color: var(--text);
+    border: 1px solid #222;
+    border-radius: 8px;
+    line-height: 1.5;
+    font-size: 14pt;
+}
+
+aside form input[type="submit"] {
+    width: 80%;
+    margin: 0 0 16px 10%;
+    padding: 0;
+    line-height: 2;
+    font-size: 12pt;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--background1);
+    color: var(--text);
+}
+
+aside input[type="submit"]:hover {
+    background-color: #555;
+    cursor: pointer;
 }
 
 aside p {
@@ -100,13 +141,15 @@ aside p {
 }
 
 #palette {
-    width: 75vw;
-    height: 80vh;
+    width: 60vw;
+    height: 90vh;
     display: grid;
-    margin: 100px 0 0 0;
+    margin: 52px 0 0 25vw;
+    padding: 16px 0;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     grid-template-rows: repeat(auto-fit, minmax(50px, 1fr));
-    background-color: #555;
+
+    background-color: #323;
 }
 
 #palette .color {
@@ -139,6 +182,18 @@ aside p {
     background-color: rgba(33, 33, 33, 0.33);
 }
 
+#palette .color .copied {
+    width: 100%;
+    position: relative;
+    animation: CopiedAnim 2s ease forwards;
+}
+
+@keyframes CopiedAnim {
+    0% { background: linear-gradient(90deg, rgba(255, 255, 255, 0.33), rgba(33, 33, 33, 0.33)) no-repeat }
+    50% { background-position-x: 400px; }
+    100% { background: rgba(33, 33, 33, 0.33) }
+}
+
 #palette .color button {
     width: 100%;
     margin: 0 0;
@@ -146,7 +201,7 @@ aside p {
     border: none;
     grid-row: -1;
 
-    background-color: rgba(33, 33, 33, 0.5);
+    background-color: rgba(110, 110, 110, 0.5);
     font-size: 14pt;
     color: var(--text);
     cursor: pointer;
@@ -158,6 +213,7 @@ aside p {
 
 
 :root {
-    --background: #333;
+    --background0: #323;
+    --background1: #333;
     --text: #eee;
 }

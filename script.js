@@ -162,7 +162,7 @@ function setViewState(state) {
 
 }
 
-function createRandomColor(parent) {
+function createRandomColor() {
     hexChars = {0: "0", 1: "1", 2: "2", 3: "3", 4: "4", 5: "5", 6: "6", 7: "7", 8: "8", 9: "9", 10: "a", 11: "b", 12: "c", 13: "d", 14: "e", 15: "f"};
     let r = hexChars[Math.round(Math.random() * 15)] + hexChars[Math.round(Math.random() * 15)];
     let g = hexChars[Math.round(Math.random() * 15)] + hexChars[Math.round(Math.random() * 15)];
@@ -221,6 +221,7 @@ function editColor() {
                 break;
             case 1:
                 inputs[i].innerHTML = base10to16(sliders[i].value);
+                break;
         }
     }
 
@@ -244,9 +245,47 @@ function editColor() {
     }
 }
 
+function setSliders() {
+    let text = document.getElementById("textInput").value;
+    valid = true;
+    switch(viewstate) {
+        case 0:
+            let rgb = text.slice(1, length - 1).split(","); // cut the parenthesis off
+
+            for (let i = 0; i < rgb.length; i++)
+                sliders[i].value = parseInt(rgb[i]);
+            editColor();
+            break;
+        case 1:
+            let hex = text.slice(1, text.length); // cut the # off
+            
+            let hexArr = []
+            // check for 3 digit hex
+            if (hex.length == 3) {
+                for (let i = 0; i < hexArr.length; i++)
+                    hexArr.push(hex[i] + hex[i]);
+            } else if (hex.length = 6) {
+                for (let i = 0; i < hex.length; i += 2)
+                    hexArr.push(hex[i] + hex[i+1]);
+            }
+
+            // if it doesn't work, oh well
+            for (let i = 0; i < hexArr.length; i++)
+                sliders[i].value = base16to10(hexArr[i]);
+            editColor();
+            break;
+    }
+}
+
 function copyColor(paletteIndex) {
     // after selecting a color, inputs are set to that color's values
     let color = colorPalette[paletteIndex];
+    let DOM_colors = document.getElementsByClassName("color");
+    
+    for (let i = 0; i < DOM_colors.length; i++)
+        DOM_colors[i].children[0].classList.remove("copied");
+
+    DOM_colors[paletteIndex].children[0].classList.add("copied"); // the p tag of the color being copied gets a fun animation
     switch(viewstate) {
         case 0:
             navigator.clipboard.writeText("(" + color.getColorValue().getRgbStr() + ")");
@@ -255,7 +294,6 @@ function copyColor(paletteIndex) {
             navigator.clipboard.writeText(color.getColorValue().getHexStr());
             break;
     }
-    
 }
 
 // globals
