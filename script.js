@@ -103,6 +103,7 @@ class Color {
         `
         <button onclick=selectColor(${paletteIndex})>Edit</button>
         <button onclick=copyColor(${paletteIndex})>Copy</button>
+        <button onclick=removeColor(${paletteIndex})>Remove</button>
         `;
         this.selected = false;
     }
@@ -188,7 +189,7 @@ function createRandomColor() {
 }
 
 function setupColors() {
-    for (let i = 0; i < 6; i++)
+    for (let i = 0; i < 8; i++)
         createRandomColor();
 }
 
@@ -296,7 +297,7 @@ function setSliders() {
 
 function copyColor(paletteIndex) {
     // after selecting a color, inputs are set to that color's values
-    let color = colorPalette[paletteIndex];
+    const color = colorPalette[paletteIndex];
     let DOM_colors = document.getElementsByClassName("color");
     
     for (let i = 0; i < DOM_colors.length; i++)
@@ -305,12 +306,18 @@ function copyColor(paletteIndex) {
     DOM_colors[paletteIndex].children[0].classList.add("copied"); // the p tag of the color being copied gets a fun animation
     switch(viewstate) {
         case 0:
-            navigator.clipboard.writeText("(" + color.getColorValue().getRgbStr() + ")");
+            navigator.clipboard.writeText(color.getColorValue().getRgbStr());
             break;
         case 1:
             navigator.clipboard.writeText(color.getColorValue().getHexStr());
             break;
     }
+}
+
+function removeColor(paletteIndex) {
+    colorPalette.splice(paletteIndex, 1);
+    console.log(colorPalette);
+    DOM_palette.removeChild(document.getElementsByClassName("color")[paletteIndex]);
 }
 
 function exportPalette() {
